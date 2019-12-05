@@ -1,0 +1,10 @@
+.sidebar{
+    background: #FFBBCC;
+
+    &__item{
+
+        &--active{
+            background: blue;
+        }
+    }
+}
