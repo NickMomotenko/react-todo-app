@@ -3,8 +3,20 @@ import Popup from '../Popup';
 
 import './Sidebar.scss';
 
-const Sidebar = ({ lists , isActivePopup, setIsActivePopup }) => {
+const Sidebar = ({  
+        lists , 
+        isActivePopup,
+        setIsActivePopup,
+        inputValueFromPopup,
+        setInputValueFromPopup,
+        addNewList,
+        activeColor,
+        setActiveColor,
+        deleteList
+    }) => {
+
     const [activeItem, setActiveItem] = useState(null);
+    
 
     return (
         <div className="sidebar">
@@ -15,13 +27,14 @@ const Sidebar = ({ lists , isActivePopup, setIsActivePopup }) => {
             </div>
             <ul className="sidebar__list">
                 {
-                    lists.map(item=>{
+                    lists.map((item, index)=>{
                         return(
                             <SidebarItem 
-                                key={item.id}
+                                key={index}
                                 item={item} 
                                 activeItem={activeItem}
-                                setActiveItem={setActiveItem} 
+                                setActiveItem={setActiveItem}
+                                deleteList={deleteList}
                             />
 
                         )
@@ -43,6 +56,11 @@ const Sidebar = ({ lists , isActivePopup, setIsActivePopup }) => {
                         && 
                             <Popup 
                                 setIsActivePopup={setIsActivePopup} 
+                                inputValueFromPopup={inputValueFromPopup}
+                                setInputValueFromPopup={setInputValueFromPopup}
+                                addNewList={addNewList}
+                                activeColor={activeColor}
+                                setActiveColor={setActiveColor}
                             />
                 }
             </div>
@@ -53,22 +71,22 @@ const Sidebar = ({ lists , isActivePopup, setIsActivePopup }) => {
 export default Sidebar;
 
 
-const SidebarItem = ({ item , activeItem, setActiveItem }) =>{
+const SidebarItem = ({ item , activeItem, deleteList, setActiveItem }) =>{
     return(
         <li className={activeItem === item ? 'sidebar__item sidebar__item--active' : 'sidebar__item'} key>
-            <a href="#" className="sidebar__link" onClick={(e)=>{setActiveItem(item)}}>
+            <a href="#" className="sidebar__link" onClick={e=>{setActiveItem(item)}}>
                 <span className="sidebar__color-bar">{item.colorId}</span>
                 <div className="sidebar__title">
                     {item.name}
                 </div>
                 {
-                    activeItem 
+                    activeItem === item
                         && 
                             <button 
                                 className="button button--cross"
                                 onClick={e=>{
                                     e.preventDefault();
-                                    setActiveItem(null);
+                                    deleteList(item);
                                 }}
                             >
                                 X

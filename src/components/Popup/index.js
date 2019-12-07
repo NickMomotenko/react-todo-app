@@ -1,23 +1,51 @@
-import React from 'react';
-
+import React, { useEffect } from 'react';
 import './Popup.scss';
 
-const Popup = ({ setIsActivePopup }) =>{
+const randomColor = require('randomcolor');
+const colors = randomColor({count: 8});
+
+const Popup = ({ 
+        setIsActivePopup ,
+        setInputValueFromPopup , 
+        inputValueFromPopup, 
+        addNewList,
+        activeColor,
+        setActiveColor
+    }) => {
+    
     return(
         <div className="popup">
             <div className="popup__input">
-                <input type="text" className="input"/>
+                <input 
+                    type="text" 
+                    className="input" 
+                    placeholder="Название папки"
+                    onChange={(e) => {
+                        setInputValueFromPopup(e.target.value);
+                    }}
+                    value={inputValueFromPopup}
+                />
             </div>
             <ul className="popup__colors">
-                <li className="popup__colors-item">1</li>
-                <li className="popup__colors-item">2</li>
-                <li className="popup__colors-item">3</li>
+                {
+                   colors.map((color , index)=>(
+                        <li 
+                            key={index}
+                            className={activeColor === color ? 'popup__colors-item popup__colors-item--active' : 'popup__colors-item'}
+                            style={{background:`${color}`}}
+                            onClick={e=>{setActiveColor(color)}}
+                        >
+                        </li>
+                   )) 
+                } 
             </ul>
             <div className="popup__colors-button">
                 <button 
                         className="button button--green"
                         onClick={e=>{
-                            
+                            addNewList();
+                            setInputValueFromPopup('');  
+                            setActiveColor(null);
                         }}
                     >
                         Добавить
@@ -27,6 +55,8 @@ const Popup = ({ setIsActivePopup }) =>{
                     onClick={e=>{
                         e.preventDefault();
                         setIsActivePopup(false);
+                        setInputValueFromPopup('');  
+                        setActiveColor(null);
                     }}
                 >
                     X

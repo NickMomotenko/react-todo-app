@@ -1,30 +1,27 @@
 import React , { useState } from 'react';
 import { Sidebar , Tasks } from './components';
 
+
 const App = () =>{
   const initialLists  = [
     {
-      "id": 1,
       "name": "Продажи",
       "colorId": 5
     },
     {
-      "id": 2,
+
       "name": "Фронтенд",
       "colorId": 4
     },
     {
-      "id": 3,
       "name": "Фильмы и сериалы",
       "colorId": 3
     },
     {
-      "id": 4,
       "name": "Книги",
       "colorId": 2
     },
     {
-      "id": 5,
       "name": "Личное",
       "colorId": 1
     }
@@ -32,8 +29,20 @@ const App = () =>{
 
   const [ lists , setLists ] = useState(initialLists);
   const [ isActivePopup, setIsActivePopup ] = useState(false);
+  const [ inputValueFromPopup , setInputValueFromPopup ] = useState('');
+  const [activeColor, setActiveColor] = useState(null);
 
+  const addNewList = () =>{
+    let newList = [...lists , { name: inputValueFromPopup , color : activeColor }];
+    setLists(newList);
+  }
 
+  const deleteList = (currentItem) =>{
+    let newListWithChanges = lists.filter(item => item.name != currentItem.name );
+    setLists(newListWithChanges);
+
+  }
+  
   return (
     <div className="wrapper">
       <div className="container">
@@ -41,6 +50,12 @@ const App = () =>{
            lists={lists} 
            isActivePopup={isActivePopup}
            setIsActivePopup={setIsActivePopup}
+           inputValueFromPopup={inputValueFromPopup}
+           setInputValueFromPopup={setInputValueFromPopup}
+           addNewList={addNewList}
+           activeColor={activeColor}
+           setActiveColor={setActiveColor}
+           deleteList={deleteList}
         />
         <Tasks />
       </div>
