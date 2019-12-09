@@ -73,7 +73,7 @@ export default Sidebar;
 const SidebarItem = ({ item , activeItem, deleteList, setActiveItem }) =>{
     return(
         <li className={activeItem === item ? 'sidebar__item sidebar__item--active' : 'sidebar__item'} key>
-            <a href="/" className="sidebar__link" onClick={e=>{setActiveItem(item)}}>
+            <a href="#" className="sidebar__link" onClick={e=>{setActiveItem(item)}}>
                 <span className="sidebar__color-bar"></span>
                 <div className="sidebar__title">
                     {item.name}

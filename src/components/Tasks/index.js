@@ -8,7 +8,7 @@ const Tasks = ({
         activeItem
     }) => {
 
-    let inputRef = useRef();
+    const inputRef = useRef();
     const [ inputValue, setInputValue ] = useState('');
     const [ inputIsActive, setInputIsAsctive ] = useState(false);
     
@@ -54,10 +54,18 @@ const Tasks = ({
                 </div>
             </div>
             <ul className="tasks__list">
-                <li className="tasks__item">
-                    <input type="checkbox" className="tasks__input input"/>
-                    <div className="tasks__name">Имя таски</div>
-                </li>
+                {
+                    lists.map(item =>(
+                        item.tasks.map((task , index)=>{
+                            return(
+                                <li className="tasks__item" key={index}>
+                                    <input type="checkbox" className="tasks__input input"/>
+                                    <div className="tasks__name">{task}</div>
+                                </li> 
+                            )     
+                        })
+                    ))
+                }
             </ul>
             <div className="tasks__button">
                 <button className="button button--add-task">Новая задача</button>

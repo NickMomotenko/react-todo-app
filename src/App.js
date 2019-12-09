@@ -6,28 +6,32 @@ const App = () =>{
   const initialLists  = [
     {   
       "id":1 ,
-      "name": "Продажи",
-      "tasks" : [1]
+      "name": "Фронтенд",
+      "tasks" : [
+        'Изучить JavaScript' , 
+        'Изучить паттерны проектирования' , 
+        'ReactJS Hooks (useState, useReducer, useEffect и т.д.)' , 
+      ]
     },
     {   
       "id":2 ,
-      "name": "Фронтенд",
-      "tasks" : [1]
+      "name": "Продажи",
+      "tasks" : [1,2,3]
     },
     {   
       "id":3 ,
       "name": "Фильмы и сериалы",
-      "tasks" : [1]
+      "tasks" : [1,2,3]
     },
     {   
       "id":4 ,
       "name": "Книги",
-      "tasks" : [1]
+      "tasks" : [1,2,3]
     },
     {   
       "id":5 ,
       "name": "Личное",
-      "tasks" : [1]
+      "tasks" : [1,2,3]
     }
   ];
 
@@ -58,7 +62,7 @@ const App = () =>{
   }
   
   // addNewTask = () =>{
-
+      
   // }
 
   return (
