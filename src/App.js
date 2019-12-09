@@ -6,23 +6,28 @@ const App = () =>{
   const initialLists  = [
     {
       "name": "Продажи",
+      "tasks" : [1],
       "colorId": 5
     },
     {
 
       "name": "Фронтенд",
+      "tasks" : [1],
       "colorId": 4
     },
     {
       "name": "Фильмы и сериалы",
+      "tasks" : [1],
       "colorId": 3
     },
     {
       "name": "Книги",
+      "tasks" : [1],
       "colorId": 2
     },
     {
       "name": "Личное",
+      "tasks" : [1],
       "colorId": 1
     }
   ];
