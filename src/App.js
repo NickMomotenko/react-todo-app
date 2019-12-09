@@ -4,38 +4,38 @@ import { Sidebar , Tasks } from './components';
 
 const App = () =>{
   const initialLists  = [
-    {
+    {   
+      "id":1 ,
       "name": "Продажи",
-      "tasks" : [1],
-      "colorId": 5
+      "tasks" : [1]
     },
-    {
-
+    {   
+      "id":2 ,
       "name": "Фронтенд",
-      "tasks" : [1],
-      "colorId": 4
+      "tasks" : [1]
     },
-    {
+    {   
+      "id":3 ,
       "name": "Фильмы и сериалы",
-      "tasks" : [1],
-      "colorId": 3
+      "tasks" : [1]
     },
-    {
+    {   
+      "id":4 ,
       "name": "Книги",
-      "tasks" : [1],
-      "colorId": 2
+      "tasks" : [1]
     },
-    {
+    {   
+      "id":5 ,
       "name": "Личное",
-      "tasks" : [1],
-      "colorId": 1
+      "tasks" : [1]
     }
   ];
 
   const [ lists , setLists ] = useState(initialLists);
+  const [ activeItem, setActiveItem ] = useState(null);
   const [ isActivePopup, setIsActivePopup ] = useState(false);
   const [ inputValueFromPopup , setInputValueFromPopup ] = useState('');
-  const [activeColor, setActiveColor] = useState(null);
+  const [ activeColor, setActiveColor ] = useState(null);
 
   const addNewList = () =>{
     let newList = [...lists , { name: inputValueFromPopup , color : activeColor }];
@@ -43,11 +43,24 @@ const App = () =>{
   }
 
   const deleteList = (currentItem) =>{
-    let newListWithChanges = lists.filter(item => item.name != currentItem.name );
+    let newListWithChanges = lists.filter(item => item.name !== currentItem.name );
     setLists(newListWithChanges);
+  }
 
+  const editList = (activeItem, name) =>{
+    const newList = lists.map(item => {
+      if (item.id === activeItem.id) {
+        item.name = name;
+      }
+      return item;
+    });
+    setLists(newList);
   }
   
+  // addNewTask = () =>{
+
+  // }
+
   return (
     <div className="wrapper">
       <div className="container">
@@ -61,8 +74,15 @@ const App = () =>{
            activeColor={activeColor}
            setActiveColor={setActiveColor}
            deleteList={deleteList}
+
+           activeItem={activeItem}
+           setActiveItem={setActiveItem}
         />
-        <Tasks />
+        <Tasks
+          lists={lists}
+          editList={editList}
+          activeItem={activeItem}
+        />
       </div>
     </div>
   ) 

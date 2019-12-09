@@ -1,14 +1,56 @@
-import React from 'react';
+import React, { useRef, useState } from 'react';
 
 import './Tasks.scss';
 
-const Tasks = () => {
+const Tasks = ({
+        lists,
+        editList,
+        activeItem
+    }) => {
+
+    let inputRef = useRef();
+    const [ inputValue, setInputValue ] = useState('');
+    const [ inputIsActive, setInputIsAsctive ] = useState(false);
+    
     return(
-        <div className="tasks">
+        <form className="tasks">
             <div className="tasks__head">
-                <div className="tasks__head-title">Имя категории</div>
+                    <div className="test">
+                        {activeItem && activeItem.name}
+                    </div>
+                    {
+                        inputIsActive && 
+                            <>
+                                <input 
+                                    className="tasks__head-title"
+                                    type="text"
+                                    placeholder="Название категории"
+                                    ref={inputRef}
+                                    value={inputValue}
+                                    onChange={e=>{
+                                        setInputValue(e.target.value);
+                                    }}
+                                />
+                                <button onClick={e=>{
+                                    editList(activeItem , inputRef.current.value);
+                                }}>
+                                    Да изменить
+                                </button>
+                            </>
+                    }
+                    
                 <div className="tasks__head-button">
-                    <button className="button button--edit">Изменить</button>
+                    {
+                        !inputIsActive 
+                            &&
+                                <button className="button button--edit" onClick={e=>{
+                                    e.preventDefault();
+                                    setInputIsAsctive(true);                        
+                                }}>
+                                    Изменить
+                                </button>
+                    }
+                    
                 </div>
             </div>
             <ul className="tasks__list">
@@ -20,7 +62,7 @@ const Tasks = () => {
             <div className="tasks__button">
                 <button className="button button--add-task">Новая задача</button>
             </div>
-        </div>
+        </form>
     );
 }
 

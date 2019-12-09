@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import Popup from '../Popup';
 
 import './Sidebar.scss';
@@ -12,12 +12,11 @@ const Sidebar = ({
         addNewList,
         activeColor,
         setActiveColor,
-        deleteList
+        deleteList,
+        activeItem,
+        setActiveItem
     }) => {
-
-    const [activeItem, setActiveItem] = useState(null);
     
-
     return (
         <div className="sidebar">
             <div className="sidebar__label">
@@ -74,8 +73,8 @@ export default Sidebar;
 const SidebarItem = ({ item , activeItem, deleteList, setActiveItem }) =>{
     return(
         <li className={activeItem === item ? 'sidebar__item sidebar__item--active' : 'sidebar__item'} key>
-            <a href="#" className="sidebar__link" onClick={e=>{setActiveItem(item)}}>
-                <span className="sidebar__color-bar">{item.colorId}</span>
+            <a href="/" className="sidebar__link" onClick={e=>{setActiveItem(item)}}>
+                <span className="sidebar__color-bar"></span>
                 <div className="sidebar__title">
                     {item.name}
                 </div>
