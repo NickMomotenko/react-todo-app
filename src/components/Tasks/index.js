@@ -3,21 +3,39 @@ import React, { useRef, useState } from 'react';
 import './Tasks.scss';
 
 const Tasks = ({
-        lists,
+        items,
         editList,
-        activeItem
+        activeItem,
+        addNewTask
     }) => {
 
     const inputRef = useRef();
+    const taskTextRef = useRef();
     const [ inputValue, setInputValue ] = useState('');
     const [ inputIsActive, setInputIsAsctive ] = useState(false);
+
+    // const Test = ({ item }) => {
+
+    //     if(item.listId == activeItem.id){
+    //         return(
+    //             <div className="test">
+    //                 {item.text}
+    //             </div>
+    //         )
+    //     }
+    //     // return item.text;
+    // }
+
+    let test = ({ item }) =>{
+       console.log(item.text);
+       
+    }
+    
     
     return(
         <form className="tasks">
             <div className="tasks__head">
-                    <div className="test">
-                        {activeItem && activeItem.name}
-                    </div>
+                    {activeItem ? activeItem.name : 'Все задачи'}
                     {
                         inputIsActive && 
                             <>
@@ -33,6 +51,8 @@ const Tasks = ({
                                 />
                                 <button onClick={e=>{
                                     editList(activeItem , inputRef.current.value);
+                                    setInputValue('');
+                                    setInputIsAsctive(false);
                                 }}>
                                     Да изменить
                                 </button>
@@ -54,22 +74,60 @@ const Tasks = ({
                 </div>
             </div>
             <ul className="tasks__list">
-                {
-                    lists.map(item =>(
-                        item.tasks.map((task , index)=>{
-                            return(
-                                <li className="tasks__item" key={index}>
-                                    <input type="checkbox" className="tasks__input input"/>
-                                    <div className="tasks__name">{task}</div>
-                                </li> 
-                            )     
-                        })
-                    ))
+                {   !activeItem 
+                        ?
+                            items.map((item) =>{
+                                return (<li className="tasks__item" key={item.id}>
+                                    <input type="checkbox" className="tasks__input input" />
+                                    <div className="tasks__name">{item.text}</div>
+                                </li>);
+                            })   
+                        :
+                            items.map((item) =>{
+                                if(item.listId == activeItem.id){
+                                    return (
+                                        <li className="tasks__item" key={item.id}>
+                                            <input type="checkbox" className="tasks__input input" />
+                                            <div className="tasks__name">{item.text}</div>
+                                        </li>
+                                    );
+                                }   
+                            })
                 }
             </ul>
             <div className="tasks__button">
-                <button className="button button--add-task">Новая задача</button>
-            </div>
+                {
+                    !inputIsActive && 
+                        <button 
+                            className="button button--add-task"
+                            onClick={e=>{
+                                e.preventDefault();
+                                setInputIsAsctive(true);
+                            }}
+                        >
+                                Новая задача
+                        </button>
+                }
+                {
+                  inputIsActive && 
+                    <div className="tasks__add-block">
+                        <input type="text" className="tasks__add-block_input" ref={taskTextRef} />
+                        <div className="tasks__add-block_buttons">
+                            <button 
+                                className="button" 
+                                onClick={e=>{
+                                    e.preventDefault();
+                                    addNewTask(taskTextRef.current.value);
+                                    setInputValue('');
+                                }}
+                            >
+                                    Добавить задачу
+                            </button>
+                            <button className="button" onClick={e=>{setInputIsAsctive(false)}}>Отмена</button>
+                        </div>
+                    </div>  
+                }
+             </div>
         </form>
     );
 }

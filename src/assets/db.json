@@ -3,37 +3,38 @@
       {
         "id": 1,
         "name": "Продажи",
-        "colorId": 5
+        "color": "#C9D1D3"
       },
       {
         "id": 2,
         "name": "Фронтенд",
-        "colorId": 4
+        "color": "#42B883"
       },
       {
         "id": 3,
-        "name": "Фильмы и сериалы",
-        "colorId": 3
+        "name": "Фильмы",
+        "color": "#64C4ED"
       },
       {
         "id": 4,
         "name": "Книги",
-        "colorId": 2
+        "color": "#FFBBCC"
       },
       {
         "id": 5,
         "name": "Личное",
-        "colorId": 1
+        "color": "#B6E6BD"
       },
-      {
+      { 
+        "id": 6,
         "name": "Спорт",
-        "colorId": 3,
-        "id": 6
+        "color": "#C355F5"
+        
       },
       {
-        "name": "Курс по ReactJS ToDo",
-        "colorId": 7,
-        "id": 7
+        "id": 7,
+        "name": "Курсы",
+        "color": "#110133"
       }
     ],
     "tasks": [
@@ -120,48 +121,6 @@
         "text": "Сделали удаление и редактирование задач и списков",
         "completed": true,
         "id": 17
-      }
-    ],
-    "colors": [
-      {
-        "id": 1,
-        "hex": "#C9D1D3",
-        "name": "grey"
-      },
-      {
-        "id": 2,
-        "hex": "#42B883",
-        "name": "green"
-      },
-      {
-        "id": 3,
-        "hex": "#64C4ED",
-        "name": "blue"
-      },
-      {
-        "id": 4,
-        "hex": "#FFBBCC",
-        "name": "pink"
-      },
-      {
-        "id": 5,
-        "hex": "#B6E6BD",
-        "name": "lime"
-      },
-      {
-        "id": 6,
-        "hex": "#C355F5",
-        "name": "purple"
-      },
-      {
-        "id": 7,
-        "hex": "#110133",
-        "name": "black"
-      },
-      {
-        "id": 8,
-        "hex": "#FF6464",
-        "name": "red"
       }
     ]
   }

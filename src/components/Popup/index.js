@@ -1,6 +1,9 @@
 import React from 'react';
 import './Popup.scss';
 
+import button_cross from '../../assets/img/Vector.svg';
+
+
 const randomColor = require('randomcolor');
 const colors = randomColor({count: 8});
 
@@ -59,7 +62,7 @@ const Popup = ({
                         setActiveColor(null);
                     }}
                 >
-                    X
+                    <img src={button_cross} alt="" className="button__cross-img"/>
                 </button>
             </div>
         </div>

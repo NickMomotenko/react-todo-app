@@ -1,91 +1,77 @@
-import React , { useState } from 'react';
+import React , { useState, useEffect } from 'react';
 import { Sidebar , Tasks } from './components';
 
+import data from './assets/db.json';
+const randomColor = require('randomcolor');
 
 const App = () =>{
-  const initialLists  = [
-    {   
-      "id":1 ,
-      "name": "Фронтенд",
-      "tasks" : [
-        'Изучить JavaScript' , 
-        'Изучить паттерны проектирования' , 
-        'ReactJS Hooks (useState, useReducer, useEffect и т.д.)' , 
-      ]
-    },
-    {   
-      "id":2 ,
-      "name": "Продажи",
-      "tasks" : [1,2,3]
-    },
-    {   
-      "id":3 ,
-      "name": "Фильмы и сериалы",
-      "tasks" : [1,2,3]
-    },
-    {   
-      "id":4 ,
-      "name": "Книги",
-      "tasks" : [1,2,3]
-    },
-    {   
-      "id":5 ,
-      "name": "Личное",
-      "tasks" : [1,2,3]
-    }
-  ];
 
-  const [ lists , setLists ] = useState(initialLists);
+  const [ lists , setLists ] = useState(data.lists);
+  const [ items , setItems ] = useState(data.tasks);
+
   const [ activeItem, setActiveItem ] = useState(null);
   const [ isActivePopup, setIsActivePopup ] = useState(false);
   const [ inputValueFromPopup , setInputValueFromPopup ] = useState('');
   const [ activeColor, setActiveColor ] = useState(null);
 
-  const addNewList = () =>{
-    let newList = [...lists , { name: inputValueFromPopup , color : activeColor }];
+  let addNewList = () =>{
+    let newIDForList = lists[lists.length -1].id + 1;
+    let newList = [...lists , {id: newIDForList, name: inputValueFromPopup}];
     setLists(newList);
   }
 
-  const deleteList = (currentItem) =>{
-    let newListWithChanges = lists.filter(item => item.name !== currentItem.name );
-    setLists(newListWithChanges);
+  let deleteList = (currentItem) =>{
+    let newListWithChanges = lists.filter(item => item.id !== currentItem.id );
+    setLists(newListWithChanges);    
   }
 
-  const editList = (activeItem, name) =>{
-    const newList = lists.map(item => {
-      if (item.id === activeItem.id) {
-        item.name = name;
+  let editList = (activeItem, name) =>{
+    const newList = lists.map(list => {
+      if (list.id === activeItem.id) {
+        list.name = name;
       }
-      return item;
+      return list;
     });
     setLists(newList);
   }
   
-  // addNewTask = () =>{
-      
-  // }
+  let addNewTask = (taskName) =>{
+    let newItem = { 
+      id:  items[items.length -1].id + 1, 
+      text: taskName , 
+      listId : activeItem.id
+    }
+
+    let newItems = [ ...items , newItem];
+    setItems(newItems);
+  }
 
   return (
     <div className="wrapper">
       <div className="container">
         <Sidebar
-           lists={lists} 
+           lists={lists}
+
            isActivePopup={isActivePopup}
            setIsActivePopup={setIsActivePopup}
+
            inputValueFromPopup={inputValueFromPopup}
            setInputValueFromPopup={setInputValueFromPopup}
+
            addNewList={addNewList}
+           deleteList={deleteList}
+
            activeColor={activeColor}
            setActiveColor={setActiveColor}
-           deleteList={deleteList}
 
            activeItem={activeItem}
            setActiveItem={setActiveItem}
         />
         <Tasks
-          lists={lists}
+          items={items}
           editList={editList}
           activeItem={activeItem}
+          addNewTask={addNewTask}
         />
       </div>
     </div>

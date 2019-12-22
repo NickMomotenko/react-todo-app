@@ -2,21 +2,22 @@ import React from 'react';
 import Popup from '../Popup';
 
 import './Sidebar.scss';
+import button_cross from '../../assets/img/Vector.svg';
 
-const Sidebar = ({  
-        lists , 
-        isActivePopup,
-        setIsActivePopup,
-        inputValueFromPopup,
-        setInputValueFromPopup,
-        addNewList,
-        activeColor,
-        setActiveColor,
-        deleteList,
-        activeItem,
-        setActiveItem
-    }) => {
-    
+const Sidebar = ({
+    lists,
+    isActivePopup,
+    setIsActivePopup,
+    inputValueFromPopup,
+    setInputValueFromPopup,
+    addNewList,
+    activeColor,
+    setActiveColor,
+    deleteList,
+    activeItem,
+    setActiveItem
+}) => {
+
     return (
         <div className="sidebar">
             <div className="sidebar__label">
@@ -26,11 +27,11 @@ const Sidebar = ({
             </div>
             <ul className="sidebar__list">
                 {
-                    lists.map((item, index)=>{
-                        return(
-                            <SidebarItem 
+                    lists.map((item, index) => {
+                        return (
+                            <SidebarItem
                                 key={index}
-                                item={item} 
+                                item={item}
                                 activeItem={activeItem}
                                 setActiveItem={setActiveItem}
                                 deleteList={deleteList}
@@ -41,10 +42,10 @@ const Sidebar = ({
                 }
             </ul>
             <div className="sidebar__button">
-                <button 
+                <button
                     className="button button--add-list"
-                    onClick={e=>{
-                        e.preventDefault(); 
+                    onClick={e => {
+                        e.preventDefault();
                         setIsActivePopup(true);
                     }}
                 >
@@ -70,27 +71,24 @@ const Sidebar = ({
 export default Sidebar;
 
 
-const SidebarItem = ({ item , activeItem, deleteList, setActiveItem }) =>{
-    return(
+const SidebarItem = ({ item, activeItem, deleteList, setActiveItem }) => {
+    return (
         <li className={activeItem === item ? 'sidebar__item sidebar__item--active' : 'sidebar__item'} key>
-            <a href="#" className="sidebar__link" onClick={e=>{setActiveItem(item)}}>
-                <span className="sidebar__color-bar"></span>
+            <a href="#" className="sidebar__link" onClick={e => { setActiveItem(item) }}>
+                <span className="sidebar__color-bar" style={{ background: `${item.color} ` }}></span>
                 <div className="sidebar__title">
                     {item.name}
                 </div>
-                {
-                    activeItem === item
-                        && 
-                            <button 
-                                className="button button--cross"
-                                onClick={e=>{
-                                    e.preventDefault();
-                                    deleteList(item);
-                                }}
-                            >
-                                X
-                            </button>
-                }
+                <button
+                    className="button"
+                    onClick={e => {
+                        e.preventDefault();
+                        deleteList(item);
+                    }}
+                    style={{opacity : activeItem === item ? 1 : 0}}
+                >
+                    <img src={button_cross} alt="" className="button__cross"/>
+                </button>
             </a>
         </li>
     )
