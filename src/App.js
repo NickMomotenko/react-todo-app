@@ -13,6 +13,7 @@ const App = () =>{
   const [ isActivePopup, setIsActivePopup ] = useState(false);
   const [ inputValueFromPopup , setInputValueFromPopup ] = useState('');
   const [ activeColor, setActiveColor ] = useState(null);
+  const [ allTasksComplited, setAllTasksComplited ] = useState(false);
 
   let addNewList = () =>{
     let newIDForList = lists[lists.length -1].id + 1;
@@ -20,8 +21,8 @@ const App = () =>{
     setLists(newList);
   }
 
-  let deleteList = (currentItem) =>{
-    let newListWithChanges = lists.filter(item => item.id !== currentItem.id );
+  let deleteItem = (currentItem) =>{
+    let newListWithChanges = lists.filter(list => list.id !== currentItem.id );
     setLists(newListWithChanges);    
   }
 
@@ -46,6 +47,22 @@ const App = () =>{
     setItems(newItems);
   }
 
+  let deliteTask = (id) =>{
+    let newItemsWithChanges = items.filter(item => item.id !== id );
+    setItems(newItemsWithChanges);  
+  }
+
+  let chechAllTaskOnComplited = () =>{
+    let arr = document.getElementById('tasks');
+    let arritems = Array.from(arr.elements.all);
+
+    if (Array.prototype.every.call(arritems, function(e) {return e.checked == true;})) {
+      setAllTasksComplited(true);
+    }else{
+      setAllTasksComplited(false);
+    }
+  }
+
   return (
     <div className="wrapper">
       <div className="container">
@@ -59,7 +76,7 @@ const App = () =>{
            setInputValueFromPopup={setInputValueFromPopup}
 
            addNewList={addNewList}
-           deleteList={deleteList}
+           deleteItem={deleteItem}
 
            activeColor={activeColor}
            setActiveColor={setActiveColor}
@@ -72,6 +89,9 @@ const App = () =>{
           editList={editList}
           activeItem={activeItem}
           addNewTask={addNewTask}
+          chechAllTaskOnComplited={chechAllTaskOnComplited}
+          allTasksComplited={allTasksComplited}
+          deliteTask={deliteTask}
         />
       </div>
     </div>

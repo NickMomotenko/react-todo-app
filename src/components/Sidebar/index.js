@@ -13,7 +13,7 @@ const Sidebar = ({
     addNewList,
     activeColor,
     setActiveColor,
-    deleteList,
+    deleteItem,
     activeItem,
     setActiveItem
 }) => {
@@ -34,7 +34,7 @@ const Sidebar = ({
                                 item={item}
                                 activeItem={activeItem}
                                 setActiveItem={setActiveItem}
-                                deleteList={deleteList}
+                                deleteItem={deleteItem}
                             />
 
                         )
@@ -71,7 +71,7 @@ const Sidebar = ({
 export default Sidebar;
 
 
-const SidebarItem = ({ item, activeItem, deleteList, setActiveItem }) => {
+const SidebarItem = ({ item, activeItem, deleteItem, setActiveItem }) => {
     return (
         <li className={activeItem === item ? 'sidebar__item sidebar__item--active' : 'sidebar__item'} key>
             <a href="#" className="sidebar__link" onClick={e => { setActiveItem(item) }}>
@@ -83,7 +83,7 @@ const SidebarItem = ({ item, activeItem, deleteList, setActiveItem }) => {
                     className="button"
                     onClick={e => {
                         e.preventDefault();
-                        deleteList(item);
+                        deleteItem(item);
                     }}
                     style={{opacity : activeItem === item ? 1 : 0}}
                 >
