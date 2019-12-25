@@ -6,12 +6,18 @@
     &__list{
         display: flex;
         flex-direction: column;
+        -webkit-user-select: none;
+        -moz-user-select: none;
+        user-select: none;
     }
 
     &__item{
+        display: flex;
+        align-items: center;
         border-radius: 4px;
         padding: 10px 12px;
         margin-bottom: 3px;
+        cursor: move;
 
         &--active{
             background: #FFFFFF;
@@ -20,11 +26,6 @@
         &:last-child{
             margin-bottom: 0;
         }
-    }
-
-    &__link{
-        display: flex;
-        align-items: center;
     }
 
     &__title{
