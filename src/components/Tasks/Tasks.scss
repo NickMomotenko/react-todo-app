@@ -6,11 +6,21 @@
         display: flex;
     }
 
+
     &__item{
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
         margin-bottom: 15px;
+        cursor: move;
+        padding: 10px;
 
         &:last-child{
             margin-bottom: 0;
+        }
+
+        &--active{
+            box-shadow: 0 0 10px blue;
         }
     }
 
@@ -20,7 +30,7 @@
     }
 
     &__input{
-        // display: none;
+        display: none;
     }
 
     &__input:checked + .tasks__fake-input{

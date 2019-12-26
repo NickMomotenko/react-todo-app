@@ -1,4 +1,5 @@
 import React, { useRef, useState } from 'react';
+import Dragula from 'react-dragula';
 
 import './Tasks.scss';
 import button_cross from '../../assets/img/Vector.svg';
@@ -8,17 +9,25 @@ const Tasks = ({
     items,
     editList,
     activeItem,
-    deleteItem,
     addNewTask,
     chechAllTaskOnComplited,
     allTasksComplited,
-    deliteTask
+    deliteTask,
+    activeTask,
+    setActiveTask
 }) => {
 
     const inputRef = useRef();
     const taskTextRef = useRef();
     const [inputValue, setInputValue] = useState('');
     const [inputIsActive, setInputIsAsctive] = useState(false);
+
+    const dragulaDecorator = (componentBackingInstance) => {
+        if (componentBackingInstance) {
+            let options = {};
+            Dragula([componentBackingInstance], options);
+        }
+    };
 
 
     return (
@@ -61,49 +70,33 @@ const Tasks = ({
 
                 </div>
             </div>
-            <ul className="tasks__list">
+            <ul className="tasks__list" ref={dragulaDecorator}>
                 {!activeItem
                     ?
                     items.map((item) => {
                         return (
-                            <li className="tasks__item" key={item.id}>
-                                <label className="tasks__label">
-                                    <input type="checkbox" name="all" className="tasks__input input" onClick={e => { chechAllTaskOnComplited() }} />
-                                    <span className="tasks__fake-input" ></span>
-                                    <div className="tasks__name">{item.text}</div>
-                                </label>
-                                <button
-                                    className="button"
-                                    onClick={e => {
-                                        e.preventDefault();
-                                        deliteTask(item.id);
-                                    }}
-                                >
-                                    <img src={button_cross} alt="" className="button__cross" />
-                                </button>
-                            </li>
+                            <TasksItem
+                                key={item.id}
+                                item={item}
+                                activeTask={activeTask}
+                                setActiveTask={setActiveTask}
+                                chechAllTaskOnComplited={chechAllTaskOnComplited}
+                                deliteTask={deliteTask}
+                            />
                         );
                     })
                     :
                     items.map((item) => {
                         if (item.listId == activeItem.id) {
                             return (
-                                <li className="tasks__item" key={item.id} >
-                                    <label className="tasks__label">
-                                        <input type="checkbox" name="all" className="tasks__input input" onClick={e => { chechAllTaskOnComplited() }} />
-                                        <span className="tasks__fake-input" ></span>
-                                        <div className="tasks__name">{item.text}</div>
-                                    </label>
-                                    <button
-                                        className="button"
-                                        onClick={e => {
-                                            e.preventDefault();
-                                            deliteTask(item.id);
-                                        }}
-                                    >
-                                        <img src={button_cross} alt="" className="button__cross" />
-                                    </button>
-                                </li>
+                                <TasksItem
+                                    key={item.id}
+                                    item={item}
+                                    activeTask={activeTask}
+                                    setActiveTask={setActiveTask}
+                                    chechAllTaskOnComplited={chechAllTaskOnComplited}
+                                    deliteTask={deliteTask}
+                                />
                             );
                         }
                     })
@@ -147,3 +140,25 @@ const Tasks = ({
 }
 
 export default Tasks;
+
+
+const TasksItem = ({ item , activeTask, setActiveTask, chechAllTaskOnComplited, deliteTask }) => {
+    return (
+        <li className={activeTask == item ? "tasks__item tasks__item--active" : "tasks__item"} key onClick={e => { setActiveTask(item) }} >
+            <label className="tasks__label">
+                <input type="checkbox" name="all" className="tasks__input input" onClick={e => { chechAllTaskOnComplited() }} />
+                <span className="tasks__fake-input" ></span>
+                <div className="tasks__name">{item.text}</div>
+            </label>
+            <button
+                className="button"
+                onClick={e => {
+                    e.preventDefault();
+                    deliteTask(item.id);
+                }}
+            >
+                <img src={button_cross} alt="" className="button__cross" />
+            </button>
+        </li>
+    )
+}

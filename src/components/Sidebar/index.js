@@ -1,5 +1,7 @@
 import React, { useEffect, useRef } from 'react';
+import Dragula from 'react-dragula';
 import Popup from '../Popup';
+
 
 import './Sidebar.scss';
 import button_cross from '../../assets/img/Vector.svg';
@@ -15,63 +17,15 @@ const Sidebar = ({
     setActiveColor,
     deleteItem,
     activeItem,
-    setActiveItem
+    setActiveItem,
 }) => {
 
-    useEffect(() => {
-        sortable();
-    })
-
-    let sortable = () => {
-        let dragElement;
-
-        let list = document.querySelector('.sidebar__list');
-        let listChilden = list.children;
-        let listArray  = Array.from(listChilden);
-
-        listArray.map(item => {
-            item.draggable = true;
-        });
-
-        
-        
-        let onDragOver = event => {
-            event.preventDefault();
-            event.dataTransfer.dropEffect = "move";
-
-            let target = event.target;
-
-            if (target && target !== dragElement && target.nodeName == 'LI') {
-                list.insertBefore(dragElement,  target.nextSibling);
-            }
+    let dragulaDecorator = (componentBackingInstance) => {
+        if (componentBackingInstance) {
+            let options = {};
+            Dragula([componentBackingInstance], options);
         }
-
-        let onDragEnd = event => {
-            event.preventDefault();
-
-            dragElement.classList.remove('ghost');
-            list.removeEventListener('dragover', onDragOver, false);
-            list.removeEventListener('dragend', onDragEnd, false);
-        }
-
-        list.addEventListener('dragstart', event => {
-            dragElement = event.target; // Запоминаем элемент который будет перемещать
-
-            // Ограничиваем тип перетаскивания
-            event.dataTransfer.effectAllowed = 'move';
-            event.dataTransfer.setData('Text', dragElement.textContent);
-
-            // Пописываемся на события при dnd
-            list.addEventListener('dragover', onDragOver, false);
-            list.addEventListener('dragend', onDragEnd, false);
-
-            setTimeout(function () {
-                // Если выполнить данное действие без setTimeout, то
-                // перетаскиваемый объект, будет иметь этот класс.
-                dragElement.classList.add('ghost');
-            }, 0)
-        })
-    }
+    };
 
     return (
         <div className="sidebar">
@@ -80,7 +34,7 @@ const Sidebar = ({
                     Все задачи
                 </span>
             </div>
-            <ul className="sidebar__list">
+            <ul className="sidebar__list" ref={dragulaDecorator}>
                 {
                     lists.map((item, index) => {
                         return (
@@ -129,9 +83,11 @@ export default Sidebar;
 const SidebarItem = ({ item, activeItem, deleteItem, setActiveItem }) => {
     return (
         <li className={activeItem === item ? 'sidebar__item sidebar__item--active' : 'sidebar__item'} key onClick={e => { setActiveItem(item) }}>
-            <span className="sidebar__color-bar" style={{ background: `${item.color} ` }}></span>
-            <div className="sidebar__title">
-                {item.name}
+            <div className="sidebar__block">
+                <span className="sidebar__color-bar" style={{ background: `${item.color} ` }}></span>
+                <div className="sidebar__title">
+                    {item.name}
+                </div>
             </div>
             <button
                 className="button"
@@ -139,7 +95,7 @@ const SidebarItem = ({ item, activeItem, deleteItem, setActiveItem }) => {
                     e.preventDefault();
                     deleteItem(item);
                 }}
-                style={{ opacity: activeItem === item ? 1 : 0 }}
+                style={{ opacity: activeItem == item ? 1 : 0, pointerEvents: activeItem == item ? 'auto' : 'none' }}
             >
                 <img src={button_cross} alt="" className="button__cross" />
             </button>
