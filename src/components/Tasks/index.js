@@ -3,6 +3,8 @@ import Dragula from 'react-dragula';
 
 import './Tasks.scss';
 import button_cross from '../../assets/img/Vector.svg';
+import button_edit from '../../assets/img/edit.svg';
+import button_accept from '../../assets/img/accept.svg';
 
 
 const Tasks = ({
@@ -33,27 +35,38 @@ const Tasks = ({
     return (
         <form className="tasks" id="tasks">
             <div className="tasks__head">
-                {activeItem ? activeItem.name : 'Все задачи'}{allTasksComplited && ' (все задания выполнены) '}
+                <div
+                    className="tasks__head-title"
+                    style={{ color: activeItem && activeItem.color, width: inputIsActive ? '0' : 'auto', visibility: inputIsActive ? 'hidden' : 'visible' }}
+                >
+                    {activeItem && activeItem.name}{allTasksComplited && ' (все задания выполнены) '}
+                </div>
                 {
                     inputIsActive &&
                     <>
                         <input
-                            className="tasks__head-title"
+                            className="tasks__head-input input"
                             type="text"
-                            placeholder="Название категории"
+                            placeholder="Изменить"
                             ref={inputRef}
                             value={inputValue}
                             onChange={e => {
                                 setInputValue(e.target.value);
                             }}
                         />
-                        <button onClick={e => {
-                            editList(activeItem, inputRef.current.value);
-                            setInputValue('');
-                            setInputIsAsctive(false);
+                        <button className="button" onClick={e => {
+                            e.preventDefault();
+                            if(inputRef.current.value.length){
+                                editList(activeItem, inputRef.current.value);
+                                setInputValue('');
+                                setInputIsAsctive(false);
+                            }else{
+                                inputRef.current.placeholder = 'Введите новое значение';
+                                inputRef.current.style.borderColor = 'red';
+                            }
                         }}>
-                            Да изменить
-                            </button>
+                            <img src={button_accept} alt="Accept" className="button__accept" />
+                        </button>
                     </>
                 }
                 <div className="tasks__head-button">
@@ -64,8 +77,8 @@ const Tasks = ({
                             e.preventDefault();
                             setInputIsAsctive(true);
                         }}>
-                            Изменить
-                                </button>
+                            <img src={button_edit} alt="Edit" className="button__edit" />
+                        </button>
                     }
 
                 </div>
@@ -142,7 +155,7 @@ const Tasks = ({
 export default Tasks;
 
 
-const TasksItem = ({ item , activeTask, setActiveTask, chechAllTaskOnComplited, deliteTask }) => {
+const TasksItem = ({ item, activeTask, setActiveTask, chechAllTaskOnComplited, deliteTask }) => {
     return (
         <li className={activeTask == item ? "tasks__item tasks__item--active" : "tasks__item"} key onClick={e => { setActiveTask(item) }} >
             <label className="tasks__label">
@@ -156,6 +169,7 @@ const TasksItem = ({ item , activeTask, setActiveTask, chechAllTaskOnComplited, 
                     e.preventDefault();
                     deliteTask(item.id);
                 }}
+                style={{ opacity: activeTask == item ? 1 : 0, pointerEvents: activeTask == item ? 'auto' : 'none' }}
             >
                 <img src={button_cross} alt="" className="button__cross" />
             </button>

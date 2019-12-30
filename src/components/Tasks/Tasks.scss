@@ -3,7 +3,33 @@
     flex: 1;
 
     &__head{
-        display: flex;
+        margin-bottom: 30px;
+
+        &:after{
+            content: '';
+            display: block;
+            background-color: #F2F2F2;
+            width: 100%;
+            height: 2px;
+            margin-top: 20px;
+        }
+
+        &-title{
+            font-size: 32px;
+            font-weight: 700;
+            display: inline-flex;
+            width: auto;
+        }
+
+        &-button{
+            margin-left: 15px;
+            display: inline-flex;
+            align-items: center;
+        }
+
+        &-input{
+            margin-right: 10px;
+        }
     }
 
 
@@ -64,4 +90,8 @@
             color: #ffffff;
         }
     }
+}
+
+.active-title{
+    width: 0;
 }

@@ -15,11 +15,22 @@ const App = () => {
   const [inputValueFromPopup, setInputValueFromPopup] = useState('');
   const [activeColor, setActiveColor] = useState(null);
   const [allTasksComplited, setAllTasksComplited] = useState(false);
+  const [ error , setError] = useState({input: '' , color: null});
 
   let addNewList = () => {
-    let newIDForList = lists[lists.length - 1].id + 1;
-    let newList = [...lists, { id: newIDForList, name: inputValueFromPopup }];
-    setLists(newList);
+    if(!inputValueFromPopup.length){
+      setError({input : 'Введите название категории'});
+    }else if(!activeColor){
+      setError({color : 'Выберите цвет'});
+    }else{
+      let newIDForList = lists[lists.length - 1].id + 1;
+      let newList = [...lists, { id: newIDForList, name: inputValueFromPopup, color: activeColor }];
+      setLists(newList);
+      setIsActivePopup(false);
+      setError({input:'', color:''});
+      setInputValueFromPopup('');
+      setActiveColor(null);
+    }
   }
 
   let deleteItem = (currentItem) => {
@@ -28,13 +39,15 @@ const App = () => {
   }
 
   let editList = (activeItem, name) => {
-    const newList = lists.map(list => {
-      if (list.id === activeItem.id) {
-        list.name = name;
-      }
-      return list;
-    });
-    setLists(newList);
+    if(name.length){
+      const newList = lists.map(list => {
+        if (list.id === activeItem.id) {
+          list.name = name;
+        }
+        return list;
+      });
+      setLists(newList);
+    }
   }
 
   let addNewTask = (taskName) => {
@@ -57,8 +70,8 @@ const App = () => {
     let arr = document.getElementById('tasks');
     let arritems = Array.from(arr.elements.all);
 
-    if (Array.prototype.every.call(arritems, function (e) { 
-      return e.checked == true; 
+    if (Array.prototype.every.call(arritems, function (e) {
+      return e.checked == true;
     })) {
       setAllTasksComplited(true);
     } else {
@@ -87,6 +100,8 @@ const App = () => {
 
           activeItem={activeItem}
           setActiveItem={setActiveItem}
+
+          error={error}
         />
         <Tasks
           items={items}
@@ -99,6 +114,8 @@ const App = () => {
 
           activeTask={activeTask}
           setActiveTask={setActiveTask}
+
+          activeColor={activeColor}
         />
       </div>
     </div>

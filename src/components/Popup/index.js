@@ -1,4 +1,4 @@
-import React from 'react';
+import React , { useState } from 'react';
 import './Popup.scss';
 
 import button_cross from '../../assets/img/Vector.svg';
@@ -13,12 +13,14 @@ const Popup = ({
         inputValueFromPopup, 
         addNewList,
         activeColor,
-        setActiveColor
+        setActiveColor,
+        error
     }) => {
-    
+
     return(
         <div className="popup">
             <div className="popup__input">
+                {error.input}
                 <input 
                     type="text" 
                     className="input" 
@@ -29,6 +31,7 @@ const Popup = ({
                     value={inputValueFromPopup}
                 />
             </div>
+            {error.color}
             <ul className="popup__colors">
                 {
                    colors.map((color , index)=>(
@@ -47,7 +50,6 @@ const Popup = ({
                         className="button button--green"
                         onClick={e=>{
                             addNewList();
-                            setInputValueFromPopup('');  
                             setActiveColor(null);
                         }}
                     >

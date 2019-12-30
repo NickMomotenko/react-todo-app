@@ -18,6 +18,7 @@ const Sidebar = ({
     deleteItem,
     activeItem,
     setActiveItem,
+    error
 }) => {
 
     let dragulaDecorator = (componentBackingInstance) => {
@@ -70,6 +71,7 @@ const Sidebar = ({
                         addNewList={addNewList}
                         activeColor={activeColor}
                         setActiveColor={setActiveColor}
+                        error={error}
                     />
                 }
             </div>
